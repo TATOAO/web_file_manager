@@ -1,0 +1,49 @@
+from (
+select
+stat_dt,
+date_sub(stat_dt, 2) as send_minus 2 date,
+date_sub(stat_dt, 1) as send_yesterday.
+unix_timestamp(cast(stat_dt as date)) as unix_stat_dt,
+sms_send_dt,
+clk_tms,
+mb_no,
+case when clk_tms > 0 then 1 else 0 end as clk_success
+from CX_HCZAPP_SAFE.DMD_ONSA SGT_DYNA.SHRT_CLK_D
+where stat_dt >= date sub(S(started date}, 9) and stat _dt <= date_add(${end_date), 5)
+and sms _tmpl id like "S%chenmocuhuo%'
+)t8
+yt
+where stat_dt >= ${started_date} and stat_dt <= ${end_date}
+) msg_table
+left join
+(
+select *
+from cx_dwf safe.his dwe cus insurance xs_attr_d cc
+where data_date >= date sub(${started_date}, 2) and data_date <= date sub(${end_date} ,2)
+and aopsid is not null
+and last active date >= "2022-01-01"
+-- and aopsid last dig
+) user label
+-- msg table
+on user label.mobilephone = msg_table.mb_no and msg table.send_minus 2 date = user_label.data date
+
+ 
+
+ 
+
+ 
+
+-- activate table
+left join (
+select aopsid, active date
+from cx hczapp_safe.maom_maomdata_maom user daily active record aa
+where
+active date >= ${started_date} and active date <= ${end_date}
+group by aopsid, active date
+) active table
+on user_label.aopsid=active_table.aopsid and
+msg _table.stat dt=active table.active date
+order by rand_index
+
+ 
+
